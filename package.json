@@ -1,0 +1,46 @@
+{
+  "name": "website",
+  "version": "0.0.1",
+  "description": "A place for me to experiment and showcase work",
+  "main": "index.html",
+  "repository": {
+    "url": "git@github.com:ajhyndman/website.git",
+    "type": "git"
+  },
+  "scripts": {
+    "build": "webpack --progress --hide-modules --config ./webpack/development.config.js",
+    "build:watch": "yarn build -- --watch",
+    "flow": "flow check",
+    "lint": "semistandard './src/**.js*'",
+    "test": "yarn flow && yarn lint"
+  },
+  "author": "Andrew Hyndman <ajhyndman@hotmail.com>",
+  "license": "MIT",
+  "semistandard": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "flowtype"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.8",
+    "babel-plugin-ramda": "^1.1.6",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "eslint-plugin-flowtype": "^2.25.0",
+    "flow-bin": "^0.36.0",
+    "semistandard": "^9.1.0",
+    "webpack": "^1.13.3",
+    "webpack-merge": "^0.18.0"
+  },
+  "dependencies": {
+    "ramda": "^0.22.1",
+    "react": "^15.4.1",
+    "react-compose": "^1.7.0",
+    "react-dom": "^15.4.1",
+    "styled-components": "^1.1.1"
+  }
+}
