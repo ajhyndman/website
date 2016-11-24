@@ -1,7 +1,9 @@
 // @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider, connect } from 'react-redux';
 
+import model from 'model';
 import styled from 'styled-components';
 
 const Title = styled.h1`
@@ -9,9 +11,15 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const App = () => <Title>Hello Worlds!</Title>;
+const App =
+  connect((model) => ({ title: model.title }))
+  ({ title }) => (
+    <Title>{title}</Title>
+  );
 
 ReactDOM.render(
-  <App />,
+  <Provider store={model}>
+    <ConnectedApp />
+  </Provider>,
   document.querySelector('#app')
 );
