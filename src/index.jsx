@@ -1,9 +1,8 @@
 // @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider, connect } from 'react-redux';
 
-import model from 'model';
+import program from 'program';
 import styled from 'styled-components';
 
 const Title = styled.h1`
@@ -11,15 +10,18 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const App =
-  connect((model) => ({ title: model.title }))
-  ({ title }) => (
-    <Title>{title}</Title>
-  );
-
-ReactDOM.render(
-  <Provider store={model}>
-    <ConnectedApp />
-  </Provider>,
-  document.querySelector('#app')
+const App = ({ title }, dispatch) => (
+  <Title>{title}</Title>
 );
+
+const mount = (reactElement: React.Element<*>) => {
+  ReactDOM.render(reactElement, document.querySelector('#app'));
+};
+
+program({
+  init: [{ title: 'Hello Worlds!' }, { type: '' }],
+  mount,
+  update: (a, model) => [model, { type: '' }],
+  subscriptions: {},
+  view: App
+});
