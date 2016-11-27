@@ -3634,6 +3634,10 @@ watchpack@^0.2.1:
     chokidar "^1.0.0"
     graceful-fs "^4.1.2"
 
+web-machine@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/web-machine/-/web-machine-0.1.2.tgz#a2b1f17f415b32610a2a4feed27ecff944a06c56"
+
 webpack:
   version "1.13.3"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-1.13.3.tgz#e79c46fe5a37c5ca70084ba0894c595cdcb42815"

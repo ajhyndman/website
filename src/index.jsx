@@ -2,9 +2,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import { Program } from 'web-machine';
 import { assoc } from 'ramda';
 
-import Program from 'program';
 import NewsFeed from 'components/NewsFeed';
 
 const Title = styled.h1`
