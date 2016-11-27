@@ -28,32 +28,54 @@ export type ProgramDefinition<shape> = {
   view: View<shape>;
 };
 
-function program<shape: Object> ({
-  init,
-  mount,
-  subscriptions,
-  update,
-  view
-}: ProgramDefinition<shape>) {
-  const [firstState, firstCommand] = init;
+class Program<shape: Object> {
+  addSubscription: (subscription: Subscription) => void;
+  dispatch: (action: Action) => void;
+  fireCommand: (command: Command) => void;
+  mount: (virtualElement: *) => void;
+  state: shape;
+  subscriptions: Subscription[];
+  update: Update<shape>;
+  view: View<shape>;
 
-  const dispatch = (action: Action) => {
-    program({
-      init: update(action, firstState),
-      mount,
-      subscriptions,
-      update,
-      view
-    });
-  };
+  constructor ({
+    init,
+    mount,
+    subscriptions,
+    update,
+    view
+  }: ProgramDefinition<shape>) {
+    this.dispatch = this.dispatch.bind(this);
+    this.fireCommand = this.fireCommand.bind(this);
 
-  subscriptions.forEach(
-    (subscription) => { subscription(firstCommand, dispatch); }
-  );
+    const [firstState, firstCommand] = init;
 
-  const virtualElement = view(firstState, dispatch);
+    this.mount = mount;
+    this.state = firstState;
+    this.subscriptions = subscriptions;
+    this.update = update;
+    this.view = view;
 
-  mount(virtualElement);
+
+    this.mount(this.view(firstState, this.dispatch));
+
+    this.fireCommand(firstCommand);
+  }
+
+  dispatch (action: Action) {
+    const [nextState, nextCommand] = this.update(action, this.state);
+    this.state = nextState;
+
+    this.mount(this.view(this.state, this.dispatch));
+
+    this.fireCommand(nextCommand);
+  }
+
+  fireCommand (command: Command) {
+    this.subscriptions.forEach(
+      (subscription) => { subscription(command, this.dispatch); }
+    );
+  }
 }
 
-export default program;
+export default Program;

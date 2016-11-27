@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { assoc } from 'ramda';
 
-import program from 'program';
+import Program from 'program';
 import NewsFeed from 'components/NewsFeed';
 
 const Title = styled.h1`
@@ -20,6 +20,7 @@ const view = (model, dispatch) => (
   <Container>
     <Title>{model.title}</Title>
     <NewsFeed news={model.news} />
+    <button onClick={() => dispatch({ type: 'FETCH_NEWS' })}>Update News</button>
   </Container>
 );
 
@@ -39,6 +40,8 @@ const update = (action, model) => {
   switch (action.type) {
     case 'UPDATE_NEWS':
       return [assoc('news', action.body, model), { type: '' }];
+    case 'FETCH_NEWS':
+      return [model, { type: 'FETCH_NEWS' }];
     default:
       return [model, { type: '' }];
   }
@@ -63,4 +66,4 @@ const subscriptions = [
   }
 ];
 
-program({ init, mount, update, subscriptions, view });
+export default new Program({ init, mount, update, subscriptions, view });
