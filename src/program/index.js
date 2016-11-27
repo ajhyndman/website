@@ -1,38 +1,35 @@
 // @flow
 
 export type Action = {
-  type: string;
-  body?: any;
+  +type: string;
+  +body?: any;
 };
 
 export type Command = {
-  type: string;
-  body?: any;
+  +type: string;
+  +body?: any;
 };
 
 export type Model<shape: Object> = shape;
 
-export type Init<shape> = [Model<shape>, Command];
+export type Init<shape> = [Model<shape>, ?Command];
 
-export type Update<shape> = (action: Action, model: Model<shape>) => [Model<shape>, Command];
+export type Update<shape> = (action: Action, model: Model<shape>) => [Model<shape>, ?Command];
 
-export type View<shape> = (model: Model<shape>, dispatch: (action: Action) => void) => *;
+export type View<shape> = (model: Model<shape>, dispatch: (action: Action) => void) => void;
 
 export type Subscription = (command: Command, dispatch: (action: Action) => void) => void;
 
 export type ProgramDefinition<shape> = {
   init: Init<shape>;
-  mount: (virtualElement: *) => void;
   update: Update<shape>;
   subscriptions: Subscription[];
   view: View<shape>;
 };
 
 class Program<shape: Object> {
-  addSubscription: (subscription: Subscription) => void;
   dispatch: (action: Action) => void;
-  fireCommand: (command: Command) => void;
-  mount: (virtualElement: *) => void;
+  fireCommand: (command: ?Command) => void;
   state: shape;
   subscriptions: Subscription[];
   update: Update<shape>;
@@ -40,7 +37,6 @@ class Program<shape: Object> {
 
   constructor ({
     init,
-    mount,
     subscriptions,
     update,
     view
@@ -50,14 +46,13 @@ class Program<shape: Object> {
 
     const [firstState, firstCommand] = init;
 
-    this.mount = mount;
     this.state = firstState;
     this.subscriptions = subscriptions;
     this.update = update;
     this.view = view;
 
 
-    this.mount(this.view(firstState, this.dispatch));
+    this.view(firstState, this.dispatch);
 
     this.fireCommand(firstCommand);
   }
@@ -66,14 +61,17 @@ class Program<shape: Object> {
     const [nextState, nextCommand] = this.update(action, this.state);
     this.state = nextState;
 
-    this.mount(this.view(this.state, this.dispatch));
+    this.view(this.state, this.dispatch);
 
     this.fireCommand(nextCommand);
   }
 
-  fireCommand (command: Command) {
+  fireCommand (command: ?Command) {
     this.subscriptions.forEach(
-      (subscription) => { subscription(command, this.dispatch); }
+      (subscription) => {
+        if (!command) return;
+        subscription(command, this.dispatch);
+      }
     );
   }
 }

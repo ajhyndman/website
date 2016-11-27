@@ -16,14 +16,6 @@ const Container = styled.div`
   padding: 1rem;
 `;
 
-const view = (model, dispatch) => (
-  <Container>
-    <Title>{model.title}</Title>
-    <NewsFeed news={model.news} />
-    <button onClick={() => dispatch({ type: 'FETCH_NEWS' })}>Update News</button>
-  </Container>
-);
-
 const init = [
   {
     title: 'New York Times Headlines',
@@ -31,21 +23,6 @@ const init = [
   },
   { type: 'FETCH_NEWS' }
 ];
-
-const mount = (reactElement: React.Element<*>) => {
-  ReactDOM.render(reactElement, document.querySelector('#app'));
-};
-
-const update = (action, model) => {
-  switch (action.type) {
-    case 'UPDATE_NEWS':
-      return [assoc('news', action.body, model), { type: '' }];
-    case 'FETCH_NEWS':
-      return [model, { type: 'FETCH_NEWS' }];
-    default:
-      return [model, { type: '' }];
-  }
-};
 
 const subscriptions = [
   (command, dispatch) => {
@@ -66,4 +43,26 @@ const subscriptions = [
   }
 ];
 
-export default new Program({ init, mount, update, subscriptions, view });
+const update = (action, model) => {
+  switch (action.type) {
+    case 'UPDATE_NEWS':
+      return [assoc('news', action.body, model)];
+    case 'FETCH_NEWS':
+      return [model, { type: 'FETCH_NEWS' }];
+    default:
+      return [model];
+  }
+};
+
+const view = (model, dispatch) => {
+  ReactDOM.render(
+    <Container>
+      <Title>{model.title}</Title>
+      <NewsFeed news={model.news} />
+      <button onClick={() => dispatch({ type: 'FETCH_NEWS' })}>Update News</button>
+    </Container>,
+    document.querySelector('#app')
+  );
+};
+
+export default new Program({ init, subscriptions, update, view });
