@@ -45,7 +45,7 @@ const NewsFeed = ({ news, width = '100%' }: Props) => {
               <Headline >
                 {article.title}
               </Headline>
-              <Byline>{article.author}</Byline>
+              <Byline>{article.author || '—'}</Byline>
             </Article>
           </li>
         ))}
