@@ -12,8 +12,8 @@ const Title = styled.h1`
 `;
 
 const Container = styled.div`
-  padding: 1rem;
   text-align: center;
+  padding: 1rem;
 `;
 
 const init = [
@@ -28,19 +28,19 @@ const subscriptions = [
   (command, dispatch) => {
     switch (command.type) {
       case 'FETCH_NEWS':
-        window.fetch('https://newsapi.org/v1/articles?source=the-new-york-times&sortBy=top&apiKey=3d531554b5db48b0b2bb298c7d524412')
+        window.fetch('https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Frss.nytimes.com%2Fservices%2Fxml%2Frss%2Fnyt%2FHomePage.xml')
           .then((response) => response.json())
           .then((responseJson) => {
             dispatch({
               type: 'UPDATE_NEWS',
-              body: responseJson.articles
+              body: responseJson.items
             });
           });
         break;
       default:
         return;
     }
-  },
+  }
 ];
 
 const update = (action, model) => {
