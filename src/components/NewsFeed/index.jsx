@@ -41,7 +41,7 @@ const NewsFeed = ({ news, width = '100%' }: Props) => {
       <ul>
         {news.map((article) => (
           <li key={uuid()} >
-            <Article href={article.link}>
+            <Article href={article.url}>
               <Headline >
                 {article.title}
               </Headline>
