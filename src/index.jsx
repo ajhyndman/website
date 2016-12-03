@@ -6,6 +6,7 @@ import { Program } from 'web-machine';
 import { assocPath } from 'ramda';
 
 import NewsFeed from 'components/NewsFeed';
+import { getNews } from 'utils';
 
 const Title = styled.h1`
   font-size: 2em;
@@ -55,23 +56,11 @@ const subscriptions = [
   (command, dispatch) => {
     switch (command.type) {
       case 'FETCH_NEWS':
-        window.fetch('https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Frss.nytimes.com%2Fservices%2Fxml%2Frss%2Fnyt%2FPolitics.xml')
-          .then((response) => response.json())
-          .then((responseJson) => {
-            dispatch({
-              type: 'UPDATE_TIMES',
-              body: responseJson.items
-            });
-          });
-
-        window.fetch('https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Ffeeds.foxnews.com%2Ffoxnews%2Fpolitics%3Fformat%3Dxml')
-          .then((response) => response.json())
-          .then((responseJson) => {
-            dispatch({
-              type: 'UPDATE_FOX',
-              body: responseJson.items
-            });
-          });
+        getNews(dispatch);
+        window.setInterval(
+          () => getNews(dispatch),
+          60000
+        );
         break;
       default:
         return;
@@ -108,7 +97,6 @@ const view = (model, dispatch) => {
               <NewsFeed news={model.news.fox} />
             </Column>
           </Row>
-          <Button onClick={() => dispatch({ type: 'FETCH_NEWS' })}>Update News</Button>
         </Column>
         <Column />
       </Row>
