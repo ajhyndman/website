@@ -12,6 +12,7 @@
     "build:watch": "yarn build -- --watch",
     "flow": "flow check",
     "lint": "semistandard './src/**.js*'",
+    "start": "live-server",
     "test": "yarn flow && yarn lint"
   },
   "author": "Andrew Hyndman <ajhyndman@hotmail.com>",
@@ -38,6 +39,7 @@
     "webpack-merge": "^0.18.0"
   },
   "dependencies": {
+    "live-server": "^1.1.0",
     "ramda": "^0.22.1",
     "react": "^15.4.1",
     "react-compose": "^1.7.0",
