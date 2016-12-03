@@ -9,14 +9,25 @@ type Props = {
 
 const Headline = styled.span`
   display: block;
+  font-weight: 300;
   overflow: hidden;
   padding: 0.5em;
   text-overflow: ellipsis;
   white-space: pre;
 `;
 
+const AlternatingListItem = styled.li`
+  &:nth-of-type(2n) {
+    background: #F9F9F9;
+  }
+
+  &:hover {
+    background: #4285F4;
+    color: #FFF;
+  }
+`;
+
 const Article = styled.a`
-  border-bottom: 1px solid #EEE;
   color: inherit;
   display: block;
   font-size: 1em;
@@ -24,30 +35,31 @@ const Article = styled.a`
 `;
 
 const Byline = styled.div`
-  color: #888;
   font-size: 0.5em;
   padding: 0 0 0.5em;
 `;
 
 const NewsFeed = ({ news, width = '100%' }: Props) => {
   const Container = styled.div`
+    box-shadow: 0 2px 8px 2px rgba(0, 0, 0, 0.1);
+    height: 50vh;
     margin: auto;
     max-width: ${width};
-    padding: 1rem;
+    overflow: auto;
   `;
 
   return (
     <Container>
       <ul>
         {news.map((article) => (
-          <li key={uuid()} >
-            <Article href={article.link}>
-              <Headline >
+          <AlternatingListItem key={uuid()} >
+            <Article href={article.link} title={article.title}>
+              <Headline>
                 {article.title}
               </Headline>
               <Byline>{article.author || '—'}</Byline>
             </Article>
-          </li>
+          </AlternatingListItem>
         ))}
       </ul>
     </Container>

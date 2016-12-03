@@ -9,13 +9,14 @@ import NewsFeed from 'components/NewsFeed';
 
 const Title = styled.h1`
   font-size: 2em;
+  line-height: 1.5em;
 `;
 
 const Container = styled.div`
   padding: 1rem;
 `;
 
-const Columns = styled.div`
+const Row = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -27,7 +28,7 @@ const Columns = styled.div`
 `;
 
 const Column = styled.div`
-  padding: 1rem;
+  padding: 0.5rem;
 
   @media (min-width: 768px) {
     width: 50%;
@@ -94,17 +95,23 @@ const update = (action, model) => {
 const view = (model, dispatch) => {
   ReactDOM.render(
     <Container>
-      <Button onClick={() => dispatch({ type: 'FETCH_NEWS' })}>Update News</Button>
-      <Columns>
+      <Row>
         <Column>
-          <Title>New York Times Headlines</Title>
-          <NewsFeed news={model.news.times} />
+          <Title>Headlines</Title>
+          <Row>
+            <Column>
+              <Title>NY Times</Title>
+              <NewsFeed news={model.news.times} />
+            </Column>
+            <Column>
+              <Title>Fox News</Title>
+              <NewsFeed news={model.news.fox} />
+            </Column>
+          </Row>
+          <Button onClick={() => dispatch({ type: 'FETCH_NEWS' })}>Update News</Button>
         </Column>
-        <Column>
-          <Title>Fox News Headlines</Title>
-          <NewsFeed news={model.news.fox} />
-        </Column>
-      </Columns>
+        <Column />
+      </Row>
     </Container>,
     document.querySelector('#app')
   );
