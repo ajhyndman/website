@@ -3,10 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { Program } from 'web-machine';
-import { assocPath } from 'ramda';
 
-import NewsFeed from 'components/NewsFeed';
-import { getNews } from 'utils';
+import NewsFeed from './components/NewsFeed';
+import { getNews } from './utils';
 
 const Title = styled.h1`
   font-size: 2em;
@@ -42,44 +41,8 @@ const Button = styled.button`
   margin: auto;
 `;
 
-const init = [
-  {
-    news: {
-      times: [],
-      fox: []
-    }
-  },
-  { type: 'FETCH_NEWS' }
-];
 
-const subscriptions = [
-  (command, dispatch) => {
-    switch (command.type) {
-      case 'FETCH_NEWS':
-        getNews(dispatch);
-        window.setInterval(
-          () => getNews(dispatch),
-          60000
-        );
-        break;
-      default:
-        return;
-    }
-  }
-];
 
-const update = (action, model) => {
-  switch (action.type) {
-    case 'UPDATE_FOX':
-      return [assocPath(['news', 'fox'], action.body, model)];
-    case 'UPDATE_TIMES':
-      return [assocPath(['news', 'times'], action.body, model)];
-    case 'FETCH_NEWS':
-      return [model, { type: 'FETCH_NEWS' }];
-    default:
-      return [model];
-  }
-};
 
 const view = (model, dispatch) => {
   ReactDOM.render(
