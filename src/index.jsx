@@ -84,21 +84,16 @@ const update = (action, model) => {
 const view = (model, dispatch) => {
   ReactDOM.render(
     <Container>
+      <Title>Headlines</Title>
       <Row>
         <Column>
-          <Title>Headlines</Title>
-          <Row>
-            <Column>
-              <Title>NY Times</Title>
-              <NewsFeed news={model.news.times} />
-            </Column>
-            <Column>
-              <Title>Fox News</Title>
-              <NewsFeed news={model.news.fox} />
-            </Column>
-          </Row>
+          <Title>NY Times</Title>
+          <NewsFeed news={model.news.times} />
         </Column>
-        <Column />
+        <Column>
+          <Title>Fox News</Title>
+          <NewsFeed news={model.news.fox} />
+        </Column>
       </Row>
     </Container>,
     document.querySelector('#app')
