@@ -7,31 +7,37 @@ import Head from '../src/components/Head';
 import NewsFeed from '../src/components/NewsFeed';
 import subscriptions from '../src/subscriptions';
 import update from '../src/update';
+import { breakpoint } from '../src/theme';
 
 const Title = styled.h1`
   font-size: 2em;
   line-height: 1.5em;
+  text-align: center;
 `;
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   padding: 1rem;
 `;
 
 const Row = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  flex-shrink: 1;
   text-align: center;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoint.medium}) {
     flex-direction: row;
   }
 `;
 
 const Column = styled.div`
-  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoint.medium}) {
     width: 50%;
   }
 `;

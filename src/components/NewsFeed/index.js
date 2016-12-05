@@ -41,9 +41,6 @@ const Byline = styled.div`
 
 const NewsFeed = ({ news, width = '100%' }: Props) => {
   const Container = styled.div`
-    box-shadow: 0 2px 8px 2px rgba(0, 0, 0, 0.1);
-    height: 50vh;
-    margin: auto;
     max-width: ${width};
     overflow: auto;
   `;
