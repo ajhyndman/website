@@ -7,7 +7,7 @@ import Head from '../src/components/Head';
 import NewsFeed from '../src/components/NewsFeed';
 import subscriptions from '../src/subscriptions';
 import update from '../src/update';
-import { breakpoint } from '../src/theme';
+// import { breakpoint } from '../src/theme';
 
 const Title = styled.h1`
   font-size: 2em;
@@ -20,49 +20,41 @@ const Container = styled.div`
   flex-direction: column;
   height: 100vh;
   padding: 1rem;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 1;
   text-align: center;
-
-  @media (min-width: ${breakpoint.medium}) {
-    flex-direction: row;
-  }
 `;
 
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
+// const Row = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   flex-shrink: 1;
+//   text-align: center;
 
-  @media (min-width: ${breakpoint.medium}) {
-    width: 50%;
-  }
-`;
+//   @media (min-width: ${breakpoint.medium}) {
+//     flex-direction: row;
+//   }
+// `;
 
-const Button = styled.button`
-  display: block;
-  font-size: 2em;
-  margin: auto;
-`;
+// const Column = styled.div`
+//   display: flex;
+//   flex-direction: column;
+
+//   @media (min-width: ${breakpoint.medium}) {
+//     width: 50%;
+//   }
+// `;
 
 export default class Index extends React.Component {
-  componentDidMount() {
+  componentDidMount () {
     const init = [
       {
-        news: {
-          times: [],
-          fox: []
-        }
+        news: []
       },
       { type: 'FETCH_NEWS' }
     ];
 
     this.state = { model: init[0] };
 
-    new Program({ init, subscriptions, update, view: this.handleChange });
+    window.program = new Program({ init, subscriptions, update, view: this.handleChange });
   }
 
   handleChange = (model, dispatch) => {
@@ -73,25 +65,14 @@ export default class Index extends React.Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <Container>
         {Head}
         <Title>Headlines</Title>
-        <Row>
-          <Column>
-            <Title>NY Times</Title>
-            {this.state
-              ? <NewsFeed news={this.state.model.news.times} />
-              : null}
-          </Column>
-          <Column>
-            <Title>Fox News</Title>
-            {this.state
-              ? <NewsFeed news={this.state.model.news.fox} />
-              : null}
-          </Column>
-        </Row>
+        {this.state
+          ? <NewsFeed news={this.state.model.news} />
+          : null}
       </Container>
     );
   }
