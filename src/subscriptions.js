@@ -1,8 +1,9 @@
 // @flow
 import { getNews } from './utils';
+import type { Action, Command } from 'web-machine';
 
 export default [
-  (command, dispatch) => {
+  (command: Command, dispatch: (action: Action) => void) => {
     switch (command.type) {
       case 'FETCH_NEWS':
         getNews(dispatch);

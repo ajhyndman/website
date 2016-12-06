@@ -8,6 +8,7 @@ import NewsFeed from '../src/components/NewsFeed';
 import subscriptions from '../src/subscriptions';
 import update from '../src/update';
 // import { breakpoint } from '../src/theme';
+import type { Action } from 'web-machine';
 
 const Title = styled.h1`
   font-size: 2em;
@@ -43,7 +44,18 @@ const Container = styled.div`
 //   }
 // `;
 
-export default class Index extends React.Component {
+export type Model = {
+  news: Array<Object>;
+};
+
+type State = {
+  model: Model;
+};
+
+export default class Index extends React.Component<void, void, State> {
+  state: State;
+  dispatch: (action: Action) => void;
+
   componentDidMount () {
     const init = [
       {
@@ -57,7 +69,7 @@ export default class Index extends React.Component {
     window.program = new Program({ init, subscriptions, update, view: this.handleChange });
   }
 
-  handleChange = (model, dispatch) => {
+  handleChange = (model: Model, dispatch: Function) => {
     this.setState({ model });
 
     if (!this.dispatch) {

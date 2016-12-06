@@ -1,16 +1,20 @@
 // @flow
 import { assoc, concat, contains, filter, map, not, prop, sort } from 'ramda';
 
-export default (action, model) => {
+import type { Action } from 'web-machine';
+import type { Model } from '../pages/index';
+
+export default (action: Action, model: Model) => {
   switch (action.type) {
     case 'UPDATE_NEWS':
-      const newNews = filter(
+      // $FlowIssue — flow-typed definition for filter seems off.
+      const newNews: Array<Object> = filter(
         (item) => not(contains(item.title, map(prop('title'), model.news))),
         action.body
       );
       if (newNews.length) {
-        const news = sort(
-          (a, b) => new Date(b.pubDate) - new Date(a.pubDate),
+        const news: Array<Object> = sort(
+          (a, b) => (new Date(b.pubDate) - new Date(a.pubDate)),
           concat(model.news, newNews)
         );
         console.log(news);
