@@ -48,6 +48,6 @@
     "react-dom": "^15.4.1",
     "styled-components": "^1.1.1",
     "uuid": "^3.0.0",
-    "web-machine": "0.1.2"
+    "web-machine": "0.1.3"
   }
 }
