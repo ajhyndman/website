@@ -1,5 +1,5 @@
 // @flow
-import { assoc, concat, contains, filter, map, not, prop, sort } from 'ramda';
+import { assoc, assocPath, concat, contains, filter, map, not, prop, sort } from 'ramda';
 
 import type { Action } from 'web-machine';
 import type { Model } from '../pages/index';
@@ -17,12 +17,15 @@ export default (action: Action, model: Model) => {
           (a, b) => (new Date(b.pubDate) - new Date(a.pubDate)),
           concat(model.news, newNews)
         );
-        console.log(news);
         return [assoc('news', news, model)];
       }
       return [model];
     case 'FETCH_NEWS':
       return [model, { type: 'FETCH_NEWS' }];
+    case 'SET_LAST_PLAYED_DATE':
+      return [assocPath(['leagueStats', 'lastActive'], action.body, model)];
+    case 'SET_LAST_PLAYED_IMG':
+      return [assocPath(['leagueStats', 'lastChamp'], action.body, model)];
     default:
       return [model];
   }

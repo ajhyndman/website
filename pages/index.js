@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import { Program } from 'web-machine';
 
 import Head from '../src/components/Head';
+import LeagueProfile from '../src/components/LeagueProfile';
 import NewsFeed from '../src/components/NewsFeed';
 import subscriptions from '../src/subscriptions';
 import update from '../src/update';
-// import { breakpoint } from '../src/theme';
+import { breakpoint } from '../src/theme';
 import type { Action } from 'web-machine';
 
 const Title = styled.h1`
@@ -24,28 +25,35 @@ const Container = styled.div`
   text-align: center;
 `;
 
-// const Row = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   flex-shrink: 1;
-//   text-align: center;
+const Row = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 1;
+  text-align: center;
 
-//   @media (min-width: ${breakpoint.medium}) {
-//     flex-direction: row;
-//   }
-// `;
+  @media (min-width: ${breakpoint.medium}) {
+    flex-direction: row;
+  }
+`;
 
-// const Column = styled.div`
-//   display: flex;
-//   flex-direction: column;
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
 
-//   @media (min-width: ${breakpoint.medium}) {
-//     width: 50%;
-//   }
-// `;
+  @media (min-width: ${breakpoint.medium}) {
+    width: 50%;
+  }
+`;
 
 export type Model = {
   news: Array<Object>;
+  leagueStats: {
+    lastActive: Date;
+    lastChamp: {
+      name: string;
+      img: string;
+    };
+  };
 };
 
 type State = {
@@ -59,9 +67,16 @@ export default class Index extends React.Component<void, void, State> {
   componentDidMount () {
     const init = [
       {
-        news: []
+        news: [],
+        leagueStats: {
+          lastActive: new Date(),
+          lastChamp: {
+            name: '',
+            img: ''
+          }
+        }
       },
-      { type: 'FETCH_NEWS' }
+      { type: 'INIT' }
     ];
 
     this.state = { model: init[0] };
@@ -81,10 +96,20 @@ export default class Index extends React.Component<void, void, State> {
     return (
       <Container>
         {Head}
-        <Title>Headlines</Title>
-        {this.state
-          ? <NewsFeed news={this.state.model.news} />
-          : null}
+        <Row>
+          <Column>
+            <Title>Headlines</Title>
+            {this.state
+              ? <NewsFeed news={this.state.model.news} />
+              : null}
+          </Column>
+          <Column>
+            <Title>League of Legends</Title>
+            {this.state
+              ? <LeagueProfile {...this.state.model.leagueStats} />
+              : null}
+          </Column>
+        </Row>
       </Container>
     );
   }
