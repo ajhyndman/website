@@ -46,7 +46,7 @@ export const getStats = (dispatch: (action: Action) => void) => {
       type: 'SET_LAST_PLAYED_IMG',
       body: {
         name: champion.name,
-        img: `http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/${champion.image.full}`
+        img: `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.name}_0.jpg`
       }
     }));
 };

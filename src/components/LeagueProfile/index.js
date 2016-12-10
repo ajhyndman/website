@@ -10,16 +10,21 @@ type Props = {
   };
 };
 
-const Image = styled.img`
-  display: block;
-  margin: auto;
-`;
+const LeagueProfile = ({ lastActive, lastChamp }: Props) => {
+  const Container = styled.div`
+    background: url("${lastChamp.img}");
+    background-position: center;
+    background-size: cover;
+    color: white;
+    height: 100%;
+    padding: 1em;
+  `;
 
-const LeagueProfile = ({ lastActive, lastChamp }: Props) => (
-  <div>
-    <Image src={lastChamp.img} />
-    <div>Menandore last played {lastChamp.name} on {lastActive && lastActive.toLocaleString()}</div>
-  </div>
-);
+  return (
+    <Container>
+      <div>Menandore last played {lastChamp.name} on {lastActive && lastActive.toLocaleString()}</div>
+    </Container>
+  );
+};
 
 export default LeagueProfile;

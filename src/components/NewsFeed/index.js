@@ -14,7 +14,7 @@ type Props = {
 
 const Headline = styled.div`
   flex-grow: 1;
-  font-weight: 300;
+  font-weight: normal;
   overflow: hidden;
   padding: 0.5em;
   text-overflow: ellipsis;

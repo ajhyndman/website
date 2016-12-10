@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Program } from 'web-machine';
+import type { Action } from 'web-machine';
 
 import Head from '../src/components/Head';
 import LeagueProfile from '../src/components/LeagueProfile';
@@ -9,7 +10,6 @@ import NewsFeed from '../src/components/NewsFeed';
 import subscriptions from '../src/subscriptions';
 import update from '../src/update';
 import { breakpoint } from '../src/theme';
-import type { Action } from 'web-machine';
 
 const Title = styled.h1`
   font-size: 2em;
